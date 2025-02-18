@@ -81,6 +81,7 @@
             nativeBuildInputs = [
               pkgs.zig
               pkgs.zig.hook
+              pkgs.autoPatchelfHook
             ];
           };
         };
