@@ -10,10 +10,6 @@
       url = "github:zigtools/zls";
       flake = false;
     };
-    zon2nix = {
-      url = "github:MidstallSoftware/zon2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -21,7 +17,6 @@
       self,
       nixpkgs,
       systems,
-      zon2nix,
       ...
     }@inputs:
     let
@@ -46,6 +41,14 @@
                   "-DZIG_VERSION=0.14.0-dev.3239+d7b93c787"
                 ];
 
+                nativeBuildInputs = [
+                  pkgs.cmake
+                  pkgs.ninja
+                  pkgs.stdenv.cc.cc.lib
+                  pkgs.llvmPackages_19.llvm
+                  pkgs.llvmPackages_19.lld
+                ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [ pkgs.autoPatchelfHook ];
+
                 outputs = [ "out" ];
               }
             )).override
@@ -57,7 +60,7 @@
             pname = "zon2nix";
             version = "0.1.2";
 
-            src = lib.cleanSource inputs.zon2nix;
+            src = lib.cleanSource ./zon2nix;
 
             nativeBuildInputs = [
               pkgs.zig
@@ -78,10 +81,14 @@
             version = "0.14.0-git+${inputs.zls.shortRev or "dirty"}";
             src = lib.cleanSource inputs.zls;
 
+            buildPhase = ''
+              mkdir -p .cache
+              ln -s ${pkgs.callPackage ./zls.nix { }} .cache/p
+              zig build install --cache-dir $(pwd)/zig-cache --global-cache-dir $(pwd)/.cache -Dcpu=native -Doptimize=ReleaseFast --prefix $out
+            '';
+
             nativeBuildInputs = [
               pkgs.zig
-              pkgs.zig.hook
-              pkgs.autoPatchelfHook
             ];
           };
         };
@@ -98,6 +105,7 @@
           default = pkgs.zig;
           zig = pkgs.zig;
           zls = pkgs.zls;
+          zon2nix = pkgs.zon2nix;
         }
       );
 
@@ -113,6 +121,7 @@
             nativeBuildInputs = [
               pkgs.zig
               pkgs.zls
+              pkgs.zon2nix
             ];
           };
         }

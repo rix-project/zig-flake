@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "flake-parts": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "zon2nix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1715865404,
-        "narHash": "sha256-/GJvTdTpuDjNn84j82cU6bXztE0MSkdnTWClUCRub78=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "8dc45382d5206bd292f9c2768b8058a8fd8311d9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1739842125,
@@ -41,8 +20,7 @@
         "nixpkgs": "nixpkgs",
         "systems": "systems",
         "zig": "zig",
-        "zls": "zls",
-        "zon2nix": "zon2nix"
+        "zls": "zls"
       }
     },
     "systems": {
@@ -89,27 +67,6 @@
       "original": {
         "owner": "zigtools",
         "repo": "zls",
-        "type": "github"
-      }
-    },
-    "zon2nix": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1718260747,
-        "narHash": "sha256-k6zZpD56l6pPGSnTwphbtBr1tM76FaBSkVl/q03uFKw=",
-        "owner": "MidstallSoftware",
-        "repo": "zon2nix",
-        "rev": "fdd128ef7449536adf015607f90c06369a122d32",
-        "type": "github"
-      },
-      "original": {
-        "owner": "MidstallSoftware",
-        "repo": "zon2nix",
         "type": "github"
       }
     }
