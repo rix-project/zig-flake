@@ -94,6 +94,8 @@
         };
     in
     {
+      overlays.default = defaultOverlay;
+
       packages = eachSystem (
         system:
         let
