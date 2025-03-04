@@ -6,6 +6,10 @@
       url = "github:ziglang/zig";
       flake = false;
     };
+    zon2nix = {
+      url = "github:nix-community/zon2nix";
+      flake = false;
+    };
     zls = {
       url = "github:zigtools/zls";
       flake = false;
@@ -38,7 +42,7 @@
                 postInstall = "";
 
                 cmakeFlags = [
-                  "-DZIG_VERSION=0.14.0-dev.3239+d7b93c787"
+                  "-DZIG_VERSION=0.14.0-dev.3456+00a8742bb"
                 ];
 
                 nativeBuildInputs = [
@@ -60,7 +64,7 @@
             pname = "zon2nix";
             version = "0.1.2";
 
-            src = lib.cleanSource ./zon2nix;
+            src = inputs.zon2nix;
 
             nativeBuildInputs = [
               pkgs.zig
@@ -81,14 +85,13 @@
             version = "0.14.0-git+${inputs.zls.shortRev or "dirty"}";
             src = lib.cleanSource inputs.zls;
 
-            buildPhase = ''
-              mkdir -p .cache
-              ln -s ${pkgs.callPackage ./zls.nix { }} .cache/p
-              zig build install --cache-dir $(pwd)/zig-cache --global-cache-dir $(pwd)/.cache -Dcpu=native -Doptimize=ReleaseFast --prefix $out
+            postPatchPhase = ''
+              ln -s ${pkgs.callPackage ./zls.nix { }} $ZIG_LOCAL_CACHE_DIR/p
             '';
 
             nativeBuildInputs = [
               pkgs.zig
+              pkgs.zig.hook
             ];
           };
         };

@@ -20,7 +20,8 @@
         "nixpkgs": "nixpkgs",
         "systems": "systems",
         "zig": "zig",
-        "zls": "zls"
+        "zls": "zls",
+        "zon2nix": "zon2nix"
       }
     },
     "systems": {
@@ -67,6 +68,22 @@
       "original": {
         "owner": "zigtools",
         "repo": "zls",
+        "type": "github"
+      }
+    },
+    "zon2nix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1741055224,
+        "narHash": "sha256-QVxg4U6Jq/CLYcMvRfi6tBov7kNhP8uG5Qg1AJbNPLU=",
+        "owner": "nix-community",
+        "repo": "zon2nix",
+        "rev": "7cea664a74dea5dba345eabe4f1fc1fd4a5ff754",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "zon2nix",
         "type": "github"
       }
     }
