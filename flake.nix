@@ -46,12 +46,12 @@
                 ];
 
                 nativeBuildInputs = [
-                  pkgs.cmake
-                  pkgs.ninja
-                  pkgs.stdenv.cc.cc.lib
-                  pkgs.llvmPackages_19.llvm
-                  pkgs.llvmPackages_19.lld
-                ] ++ lib.optionals (!pkgs.stdenv.isDarwin) [ pkgs.autoPatchelfHook ];
+                  cmake
+                  ninja
+                  stdenv.cc.cc.lib
+                  llvmPackages_19.llvm
+                  llvmPackages_19.lld
+                ] ++ lib.optionals (!stdenv.isDarwin) [ autoPatchelfHook ];
 
                 outputs = [ "out" ];
               }
@@ -67,8 +67,8 @@
             src = inputs.zon2nix;
 
             nativeBuildInputs = [
-              pkgs.zig
-              pkgs.zig.hook
+              zig
+              zig.hook
             ];
 
             zigBuildFlags = [
@@ -78,6 +78,15 @@
             zigCheckFlags = [
               "-Dnix=${lib.getExe nix}"
             ];
+
+            postInstall = lib.optional stdenv.hostPlatform.isLinux ''
+              patchelf --set-interpreter ${stdenv.cc.libc}/lib/ld-linux-${
+                if stdenv.hostPlatform.isx86_64 then
+                  "x86-64.so.2"
+                else
+                  "${stdenv.hostPlatform.parsed.cpu.name}.so.1"
+              } $out/bin/zon2nix
+            '';
           };
 
           zls = stdenv.mkDerivation {
@@ -85,13 +94,13 @@
             version = "0.14.0-git+${inputs.zls.shortRev or "dirty"}";
             src = lib.cleanSource inputs.zls;
 
-            postPatchPhase = ''
-              ln -s ${pkgs.callPackage ./zls.nix { }} $ZIG_LOCAL_CACHE_DIR/p
+            postPatch = ''
+              ln -s ${callPackage ./zls.nix { }} $ZIG_GLOBAL_CACHE_DIR/p
             '';
 
             nativeBuildInputs = [
-              pkgs.zig
-              pkgs.zig.hook
+              zig
+              zig.hook
             ];
           };
         };
