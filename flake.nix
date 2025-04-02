@@ -33,7 +33,7 @@
           zig =
             (prev.zig.overrideAttrs (
               finalAttrs: p: {
-                version = "0.14.0-git+${inputs.zig.shortRev or "dirty"}";
+                version = "0.15.0-git+${inputs.zig.shortRev or "dirty"}";
                 src = inputs.zig;
 
                 doInstallCheck = false;
@@ -42,7 +42,7 @@
                 postInstall = "";
 
                 cmakeFlags = [
-                  "-DZIG_VERSION=0.14.0-dev.3456+00a8742bb"
+                  "-DZIG_VERSION=0.15.0-dev.9999+${inputs.zig.shortRev or "dirty"}"
                 ];
 
                 nativeBuildInputs = [
@@ -91,7 +91,7 @@
 
           zls = stdenv.mkDerivation {
             pname = "zls";
-            version = "0.14.0-git+${inputs.zls.shortRev or "dirty"}";
+            version = "0.15.0-git+${inputs.zls.shortRev or "dirty"}";
             src = lib.cleanSource inputs.zls;
 
             postPatch = ''
