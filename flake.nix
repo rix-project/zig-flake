@@ -11,7 +11,7 @@
       flake = false;
     };
     zls = {
-      url = "github:zigtools/zls";
+      url = "github:zix-os/zls";
       flake = false;
     };
   };
@@ -49,15 +49,15 @@
                   cmake
                   ninja
                   stdenv.cc.cc.lib
-                  llvmPackages_19.llvm
-                  llvmPackages_19.lld
+                  llvmPackages_20.lld
+                  llvmPackages_20.llvm
                 ] ++ lib.optionals (!stdenv.isDarwin) [ autoPatchelfHook ];
 
                 outputs = [ "out" ];
               }
             )).override
               {
-                llvmPackages = llvmPackages_19;
+                llvmPackages = llvmPackages_20;
               };
 
           zon2nix = stdenv.mkDerivation {
@@ -78,15 +78,6 @@
             zigCheckFlags = [
               "-Dnix=${lib.getExe nix}"
             ];
-
-            postInstall = lib.optional stdenv.hostPlatform.isLinux ''
-              patchelf --set-interpreter ${stdenv.cc.libc}/lib/ld-linux-${
-                if stdenv.hostPlatform.isx86_64 then
-                  "x86-64.so.2"
-                else
-                  "${stdenv.hostPlatform.parsed.cpu.name}.so.1"
-              } $out/bin/zon2nix
-            '';
           };
 
           zls = stdenv.mkDerivation {
