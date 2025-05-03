@@ -11,7 +11,7 @@
       flake = false;
     };
     zls = {
-      url = "github:zix-os/zls";
+      url = "github:zigtools/zls";
       flake = false;
     };
   };
