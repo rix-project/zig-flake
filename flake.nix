@@ -1,13 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-    systems.url = "github:nix-systems/default";
     zig = {
-      url = "github:ziglang/zig";
-      flake = false;
-    };
-    zon2nix = {
-      url = "github:nix-community/zon2nix";
+      url = "git+https://codeberg.org/ziglang/zig";
       flake = false;
     };
     zls = {
@@ -18,22 +13,26 @@
 
   outputs =
     {
-      self,
       nixpkgs,
-      systems,
       ...
     }@inputs:
     let
       inherit (nixpkgs) lib;
 
-      eachSystem = nixpkgs.lib.genAttrs (import systems);
+      eachSystem = nixpkgs.lib.genAttrs [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+        "riscv64-linux"
+      ];
 
       defaultOverlay =
         pkgs: prev: with pkgs; {
           zig =
             (prev.zig.overrideAttrs (
               finalAttrs: p: {
-                version = "0.15.0-git+${inputs.zig.shortRev or "dirty"}";
+                version = "0.16.0-git+${inputs.zig.shortRev or "dirty"}";
                 src = inputs.zig;
 
                 doInstallCheck = false;
@@ -42,58 +41,48 @@
                 postInstall = "";
 
                 cmakeFlags = [
-                  "-DZIG_VERSION=0.15.0-dev.9999+${inputs.zig.shortRev or "dirty"}"
+                  "-DZIG_VERSION=0.16.0-dev.9999+${inputs.zig.shortRev or "dirty"}"
                 ];
 
                 nativeBuildInputs = [
                   cmake
                   ninja
                   stdenv.cc.cc.lib
-                  llvmPackages_20.lld
-                  llvmPackages_20.llvm
-                ] ++ lib.optionals (!stdenv.isDarwin) [ autoPatchelfHook ];
+                  llvmPackages_21.lld
+                  llvmPackages_21.llvm
+                ]
+                ++ lib.optionals (!stdenv.isDarwin) [ autoPatchelfHook ];
 
                 outputs = [ "out" ];
               }
             )).override
               {
-                llvmPackages = llvmPackages_20;
+                llvmPackages = llvmPackages_21;
               };
 
-          zon2nix = stdenv.mkDerivation {
-            pname = "zon2nix";
-            version = "0.1.2";
-
-            src = inputs.zon2nix;
-
-            nativeBuildInputs = [
-              zig
-              zig.hook
-            ];
-
-            zigBuildFlags = [
-              "-Dnix=${lib.getExe nix}"
-            ];
-
-            zigCheckFlags = [
-              "-Dnix=${lib.getExe nix}"
-            ];
-          };
-
-          zls = stdenv.mkDerivation {
+          zls = stdenv.mkDerivation (finalAttrs: {
             pname = "zls";
-            version = "0.15.0-git+${inputs.zls.shortRev or "dirty"}";
+            version = "0.16.0-git+${inputs.zls.shortRev or "dirty"}";
             src = lib.cleanSource inputs.zls;
 
-            postPatch = ''
-              ln -s ${callPackage ./zls.nix { }} $ZIG_GLOBAL_CACHE_DIR/p
+            postConfigure = ''
+              ln -s ${
+                zig.fetchDeps {
+                  inherit (finalAttrs)
+                    src
+                    pname
+                    version
+                    ;
+                  hash = "sha256-VCxJhfnNHpOuPC+lYYmKjMmxQCcLVtuV4UtMSOHZRRw=";
+                }
+              } $ZIG_GLOBAL_CACHE_DIR/p
             '';
 
             nativeBuildInputs = [
               zig
               zig.hook
             ];
-          };
+          });
         };
     in
     {
@@ -110,7 +99,6 @@
           default = pkgs.zig;
           zig = pkgs.zig;
           zls = pkgs.zls;
-          zon2nix = pkgs.zon2nix;
         }
       );
 
@@ -125,8 +113,6 @@
           default = pkgs.mkShell {
             nativeBuildInputs = [
               pkgs.zig
-              pkgs.zls
-              pkgs.zon2nix
             ];
           };
         }

@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1746302653,
-        "narHash": "sha256-QNZNV2o50PkcN/OstNUyd9GwMeEEbGvhrnTErvo5whI=",
+        "lastModified": 1771125732,
+        "narHash": "sha256-2zhpQZ81CRRih2YNtmN3viTgfS9V+GVdzj9qZAD0U0k=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cab5790ecc9c5f819fa19c918112b5d4fd1fa6ed",
+        "rev": "17173c33d2e975c4dd2eb53385485dad7b20b355",
         "type": "github"
       },
       "original": {
@@ -18,72 +18,39 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "systems": "systems",
         "zig": "zig",
-        "zls": "zls",
-        "zon2nix": "zon2nix"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
+        "zls": "zls"
       }
     },
     "zig": {
       "flake": false,
       "locked": {
-        "lastModified": 1746299442,
-        "narHash": "sha256-x5byRhpj0/r6OScFKQufpc6yqMBBJl5aWJGK7Wl+Axw=",
-        "owner": "ziglang",
-        "repo": "zig",
-        "rev": "f4e9846bca69e20f907384cdad43b86a3aae1fb2",
-        "type": "github"
+        "lastModified": 1771108503,
+        "narHash": "sha256-lnxuYG8FcLpBiUmIcP3UXZY/HnWi6qr4igJ7V19J3Ko=",
+        "ref": "refs/heads/master",
+        "rev": "c6eeae8a8c2314fd35b5baddb18f33b0122d319f",
+        "revCount": 37171,
+        "type": "git",
+        "url": "https://codeberg.org/ziglang/zig"
       },
       "original": {
-        "owner": "ziglang",
-        "repo": "zig",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/ziglang/zig"
       }
     },
     "zls": {
       "flake": false,
       "locked": {
-        "lastModified": 1746203053,
-        "narHash": "sha256-lLo36G4NmXFG6gk23jF+JHd86HwfgE08uot1bm4Wquw=",
+        "lastModified": 1770898894,
+        "narHash": "sha256-9SrrOnyEOPoMxoB9jgi4CBokCLda3nSBBbJ3wAqOmrg=",
         "owner": "zigtools",
         "repo": "zls",
-        "rev": "447beba525e3fe6eed52b6a6e95f412644683f5d",
+        "rev": "0e289f5c4df4ee91fb888414c1b8a4b096e3cdb8",
         "type": "github"
       },
       "original": {
         "owner": "zigtools",
         "repo": "zls",
-        "type": "github"
-      }
-    },
-    "zon2nix": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1742508634,
-        "narHash": "sha256-89hYzrzQokQ+HUOd3g4epP9jdajaIoaMG81SrCNCqqU=",
-        "owner": "nix-community",
-        "repo": "zon2nix",
-        "rev": "2360e358c2107860dadd340f88b25d260b538188",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "zon2nix",
         "type": "github"
       }
     }
