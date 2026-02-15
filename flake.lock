@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1771125732,
-        "narHash": "sha256-2zhpQZ81CRRih2YNtmN3viTgfS9V+GVdzj9qZAD0U0k=",
+        "lastModified": 1771197546,
+        "narHash": "sha256-kKxz3WzrzUAvdM6rceN7V7Nsoz/UTtk/ECeQQq5A5dk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "17173c33d2e975c4dd2eb53385485dad7b20b355",
+        "rev": "74fe7ace5ddd5d76e3e19d1cfd451e4345d468dd",
         "type": "github"
       },
       "original": {
@@ -25,11 +25,11 @@
     "zig": {
       "flake": false,
       "locked": {
-        "lastModified": 1771108503,
-        "narHash": "sha256-lnxuYG8FcLpBiUmIcP3UXZY/HnWi6qr4igJ7V19J3Ko=",
+        "lastModified": 1771193533,
+        "narHash": "sha256-8DDuiBkmn+tePw/e/2snDmqHcXx3HYd0a0G/UdxtK3w=",
         "ref": "refs/heads/master",
-        "rev": "c6eeae8a8c2314fd35b5baddb18f33b0122d319f",
-        "revCount": 37171,
+        "rev": "1838134200c769b97b90f2b6daf7b50d861c7834",
+        "revCount": 37177,
         "type": "git",
         "url": "https://codeberg.org/ziglang/zig"
       },
