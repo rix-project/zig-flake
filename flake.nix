@@ -1,8 +1,8 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/pull/493742/head";
     zig = {
-      url = "git+https://codeberg.org/ziglang/zig";
+      url = "git+https://codeberg.org/ziglang/zig?shallow=1";
       flake = false;
     };
     zls = {
@@ -80,9 +80,9 @@
 
             nativeBuildInputs = [
               zig
-              zig.hook
             ];
           });
+
         };
     in
     {
@@ -96,9 +96,7 @@
           ];
         in
         {
-          default = pkgs.zig;
-          zig = pkgs.zig;
-          zls = pkgs.zls;
+          inherit (pkgs) zig zls zlinter;
         }
       );
 
