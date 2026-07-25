@@ -1,12 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/pull/493742/head";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     zig = {
       url = "git+https://codeberg.org/ziglang/zig?shallow=1";
       flake = false;
     };
     zls = {
-      url = "github:zigtools/zls";
+      url = "github:zigtools/zls/0.16.0";
       flake = false;
     };
   };
@@ -32,7 +32,7 @@
           zig =
             (prev.zig.overrideAttrs (
               finalAttrs: p: {
-                version = "0.16.0-git+${inputs.zig.shortRev or "dirty"}";
+                version = "0.17.0-git+${inputs.zig.shortRev or "dirty"}";
                 src = inputs.zig;
 
                 doInstallCheck = false;
@@ -41,15 +41,15 @@
                 postInstall = "";
 
                 cmakeFlags = [
-                  "-DZIG_VERSION=0.16.0-dev.9999+${inputs.zig.shortRev or "dirty"}"
+                  "-DZIG_VERSION=0.17.0-dev.9999+${inputs.zig.shortRev or "dirty"}"
                 ];
 
                 nativeBuildInputs = [
                   cmake
                   ninja
                   stdenv.cc.cc.lib
-                  llvmPackages_21.lld
-                  llvmPackages_21.llvm
+                  llvmPackages_22.lld
+                  llvmPackages_22.llvm
                 ]
                 ++ lib.optionals (!stdenv.isDarwin) [ autoPatchelfHook ];
 
@@ -57,7 +57,7 @@
               }
             )).override
               {
-                llvmPackages = llvmPackages_21;
+                llvmPackages = llvmPackages_22;
               };
 
           zls = stdenv.mkDerivation (finalAttrs: {
@@ -67,19 +67,19 @@
 
             postConfigure = ''
               ln -s ${
-                zig.fetchDeps {
+                prev.zig.fetchDeps {
                   inherit (finalAttrs)
                     src
                     pname
                     version
                     ;
-                  hash = "sha256-VCxJhfnNHpOuPC+lYYmKjMmxQCcLVtuV4UtMSOHZRRw=";
+                  hash = "sha256-I9mWQL83hYDOyL6sTEWgzzYyV8w0v6kmbTmUV7HO6K0=";
                 }
               } $ZIG_GLOBAL_CACHE_DIR/p
             '';
 
             nativeBuildInputs = [
-              zig
+              prev.zig
             ];
           });
 
